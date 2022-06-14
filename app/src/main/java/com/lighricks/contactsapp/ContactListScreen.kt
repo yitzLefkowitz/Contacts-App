@@ -26,8 +26,12 @@ import com.lighricks.contactsapp.ui.theme.AppBarBackground
 import com.lighricks.contactsapp.ui.theme.ContactBackgroundGradientEnd
 import com.lighricks.contactsapp.ui.theme.ContactBackgroundGradientStart
 import com.lighricks.contactsapp.ui.theme.ContactDivider
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
 
 @Preview(showBackground = true)
+@RootNavGraph(start = true)
+@Destination
 @Composable
 fun ContactList() {
     Scaffold(

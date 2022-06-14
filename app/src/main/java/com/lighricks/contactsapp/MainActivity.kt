@@ -6,7 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.lighricks.contactsapp.ui.theme.ContactsAppTheme
+import com.ramcosta.composedestinations.DestinationsNavHost
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +23,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun App() {
     ContactsAppTheme {
-        ContactList()
+        DestinationsNavHost(navGraph = NavGraphs.root)
     }
 }
