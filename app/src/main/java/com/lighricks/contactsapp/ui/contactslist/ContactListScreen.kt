@@ -1,4 +1,4 @@
-package com.lighricks.contactsapp
+package com.lighricks.contactsapp.ui.contactslist
 
 import android.util.Log
 import androidx.compose.foundation.background
@@ -22,6 +22,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.lighricks.contactsapp.R
 import com.lighricks.contactsapp.ui.theme.AppBarBackground
 import com.lighricks.contactsapp.ui.theme.ContactBackgroundGradientEnd
 import com.lighricks.contactsapp.ui.theme.ContactBackgroundGradientStart
@@ -33,7 +35,9 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 @RootNavGraph(start = true)
 @Destination
 @Composable
-fun ContactList() {
+fun ContactList(
+    viewModel: ContactsListViewModel = viewModel()
+) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -43,7 +47,9 @@ fun ContactList() {
             )
         },
         content = {
-            ContactsList(contacts = createContacts(), onClick = { Log.d("Yitz", "Clicked on $it") })
+            ContactsList(
+                contacts = viewModel.getContacts(),
+                onClick = { Log.d("Yitz", "Clicked on $it") })
         }
     )
 }
@@ -83,18 +89,8 @@ fun ContactRow(contact: Contact, onClick: (contact: Contact) -> Unit) {
                 ),
                 shape = RoundedCornerShape(16.dp)
             )
-            .clickable { onClick(contact) }
             .fillMaxWidth()
+            .clickable { onClick(contact) }
             .padding(horizontal = 16.dp, vertical = 12.dp)
     )
 }
-
-data class Contact(
-    val id: String,
-    val name: String
-)
-
-private fun createContacts(): List<Contact> = (0..10).map {
-    Contact(id = it.toString(), name = "Contact $it")
-}
-
