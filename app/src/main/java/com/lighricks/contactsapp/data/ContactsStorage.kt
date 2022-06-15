@@ -5,7 +5,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ContactsCache @Inject constructor() {
+class ContactsStorage @Inject constructor() {
 
     private val contacts = MutableStateFlow<Map<Long, ContactData>>(emptyMap())
 

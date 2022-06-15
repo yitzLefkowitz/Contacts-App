@@ -14,6 +14,8 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
@@ -38,6 +40,8 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 fun ContactList(
     viewModel: ContactsListViewModel = viewModel()
 ) {
+    val contacts: List<ContactRow> by viewModel.getContacts().collectAsState(initial = emptyList())
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -48,7 +52,7 @@ fun ContactList(
         },
         content = {
             ContactsList(
-                contacts = viewModel.getContacts(),
+                contacts = contacts,
                 onClick = { Log.d("Yitz", "Clicked on $it") })
         }
     )
@@ -63,7 +67,7 @@ fun AppBarTitle() {
 }
 
 @Composable
-fun ContactsList(contacts: List<Contact>, onClick: (contact: Contact) -> Unit) {
+fun ContactsList(contacts: List<ContactRow>, onClick: (contact: ContactRow) -> Unit) {
     LazyColumn {
         itemsIndexed(contacts) { index, contact ->
             ContactRow(contact = contact, onClick = onClick)
@@ -75,7 +79,7 @@ fun ContactsList(contacts: List<Contact>, onClick: (contact: Contact) -> Unit) {
 }
 
 @Composable
-fun ContactRow(contact: Contact, onClick: (contact: Contact) -> Unit) {
+fun ContactRow(contact: ContactRow, onClick: (contact: ContactRow) -> Unit) {
     Text(
         text = contact.name,
         fontSize = 30.sp,
