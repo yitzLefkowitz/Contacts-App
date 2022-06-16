@@ -1,4 +1,4 @@
-package com.lighricks.contactsapp.ui.contact
+package com.lightricks.contactsapp.ui.contact
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -20,10 +20,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.lighricks.contactsapp.R
-import com.lighricks.contactsapp.ui.theme.ContactDataBackground
-import com.lighricks.contactsapp.ui.theme.UserdataText
-import com.lighricks.contactsapp.ui.theme.UsernameText
+import com.lightricks.contactsapp.ui.theme.ContactDataBackground
+import com.lightricks.contactsapp.ui.theme.UserdataText
+import com.lightricks.contactsapp.ui.theme.UsernameText
 import com.ramcosta.composedestinations.annotation.Destination
 
 @Destination

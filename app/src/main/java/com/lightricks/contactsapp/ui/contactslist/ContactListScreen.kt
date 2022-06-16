@@ -1,4 +1,4 @@
-package com.lighricks.contactsapp.ui.contactslist
+package com.lightricks.contactsapp.ui.contactslist
 
 import android.Manifest
 import android.content.Context
@@ -33,12 +33,11 @@ import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.lighricks.contactsapp.R
-import com.lighricks.contactsapp.ui.destinations.ContactScreenDestination
-import com.lighricks.contactsapp.ui.theme.AppBarBackground
-import com.lighricks.contactsapp.ui.theme.ContactBackgroundGradientEnd
-import com.lighricks.contactsapp.ui.theme.ContactBackgroundGradientStart
-import com.lighricks.contactsapp.ui.theme.ContactDivider
+import com.lightricks.contactsapp.ui.destinations.ContactScreenDestination
+import com.lightricks.contactsapp.ui.theme.AppBarBackground
+import com.lightricks.contactsapp.ui.theme.ContactBackgroundGradientEnd
+import com.lightricks.contactsapp.ui.theme.ContactBackgroundGradientStart
+import com.lightricks.contactsapp.ui.theme.ContactDivider
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator

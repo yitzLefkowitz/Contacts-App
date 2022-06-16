@@ -1,4 +1,4 @@
-package com.lighricks.contactsapp
+package com.lightricks.contactsapp
 
 import org.junit.Test
 

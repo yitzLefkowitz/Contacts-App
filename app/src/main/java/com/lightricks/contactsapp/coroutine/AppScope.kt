@@ -1,4 +1,4 @@
-package com.lighricks.contactsapp.coroutine
+package com.lightricks.contactsapp.coroutine
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope

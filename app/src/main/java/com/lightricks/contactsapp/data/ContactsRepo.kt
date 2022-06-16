@@ -1,4 +1,4 @@
-package com.lighricks.contactsapp.data
+package com.lightricks.contactsapp.data
 
 import android.Manifest
 import androidx.annotation.RequiresPermission

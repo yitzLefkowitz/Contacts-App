@@ -1,4 +1,4 @@
-package com.lighricks.contactsapp
+package com.lightricks.contactsapp
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

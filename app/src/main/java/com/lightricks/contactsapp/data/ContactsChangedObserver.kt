@@ -1,4 +1,4 @@
-package com.lighricks.contactsapp.data
+package com.lightricks.contactsapp.data
 
 import android.Manifest
 import android.content.Context
@@ -8,7 +8,7 @@ import android.os.HandlerThread
 import android.provider.ContactsContract
 import android.util.Log
 import androidx.annotation.RequiresPermission
-import com.lighricks.contactsapp.coroutine.AppScope
+import com.lightricks.contactsapp.coroutine.AppScope
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import javax.inject.Inject

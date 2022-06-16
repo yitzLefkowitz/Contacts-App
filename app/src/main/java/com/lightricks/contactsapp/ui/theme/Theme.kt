@@ -1,4 +1,4 @@
-package com.lighricks.contactsapp.ui.theme
+package com.lightricks.contactsapp.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
