@@ -1,8 +1,8 @@
-package com.lighricks.contactsapp.ui.contact
+package com.lightricks.contactsapp.ui.contact
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
-import com.lighricks.contactsapp.data.ContactsRepo
+import com.lightricks.contactsapp.data.ContactsRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

@@ -1,4 +1,4 @@
-package com.lighricks.contactsapp.data
+package com.lightricks.contactsapp.data
 
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject

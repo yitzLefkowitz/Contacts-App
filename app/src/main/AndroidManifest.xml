@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.lighricks.contactsapp">
+    package="com.lightricks.contactsapp">
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
@@ -14,10 +14,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ContactsApp"
-        android:name=".ContactsApp"
+        android:name="com.lightricks.contactsapp.ContactsApp"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name="com.lightricks.contactsapp.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.ContactsApp">
