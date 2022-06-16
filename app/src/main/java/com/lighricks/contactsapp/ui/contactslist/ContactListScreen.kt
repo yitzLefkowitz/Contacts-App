@@ -1,6 +1,12 @@
 package com.lighricks.contactsapp.ui.contactslist
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresPermission
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,18 +19,19 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.core.content.ContextCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.lighricks.contactsapp.R
 import com.lighricks.contactsapp.ui.theme.AppBarBackground
 import com.lighricks.contactsapp.ui.theme.ContactBackgroundGradientEnd
@@ -33,15 +40,41 @@ import com.lighricks.contactsapp.ui.theme.ContactDivider
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 
-@Preview(showBackground = true)
 @RootNavGraph(start = true)
 @Destination
 @Composable
-fun ContactList(
-    viewModel: ContactsListViewModel = viewModel()
+fun ContactListScreen(
+    viewModel: ContactsListViewModel = hiltViewModel<ContactsListViewModel>()
 ) {
-    val contacts: List<ContactRow> by viewModel.getContacts().collectAsState(initial = emptyList())
+    val initialPermissionStatus = LocalContext.current.hasContactsPermission
+    var hasPermission by remember { mutableStateOf(initialPermissionStatus) }
+    val permissionLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) {
+            hasPermission = it
+        }
 
+    if (!hasPermission) {
+        SideEffect {
+            permissionLauncher.launch(Manifest.permission.READ_CONTACTS)
+        }
+    } else {
+        @Suppress("MissingPermission")
+        ContactsScreenUi(viewModel = viewModel)
+    }
+}
+
+private val Context.hasContactsPermission: Boolean
+    get() = ContextCompat.checkSelfPermission(
+        this,
+        Manifest.permission.READ_CONTACTS
+    ) == PackageManager.PERMISSION_GRANTED
+
+@RequiresPermission(Manifest.permission.READ_CONTACTS)
+@Composable
+fun ContactsScreenUi(viewModel: ContactsListViewModel) {
+    viewModel.observeContacts()
+    val contacts: List<ContactRow> by viewModel.getContacts()
+        .collectAsState(initial = emptyList())
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -67,7 +100,10 @@ fun AppBarTitle() {
 }
 
 @Composable
-fun ContactsList(contacts: List<ContactRow>, onClick: (contact: ContactRow) -> Unit) {
+fun ContactsList(
+    contacts: List<ContactRow>,
+    onClick: (contact: ContactRow) -> Unit
+) {
     LazyColumn {
         itemsIndexed(contacts) { index, contact ->
             ContactRow(contact = contact, onClick = onClick)
@@ -87,14 +123,32 @@ fun ContactRow(contact: ContactRow, onClick: (contact: ContactRow) -> Unit) {
         modifier = Modifier
             .background(
                 brush = Brush.linearGradient(
-                    colors = listOf(ContactBackgroundGradientStart, ContactBackgroundGradientEnd),
+                    colors = listOf(
+                        ContactBackgroundGradientStart,
+                        ContactBackgroundGradientEnd
+                    ),
                     start = Offset.Zero,
                     end = Offset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
                 ),
                 shape = RoundedCornerShape(16.dp)
             )
+            .clip(RoundedCornerShape(16.dp))
             .fillMaxWidth()
             .clickable { onClick(contact) }
             .padding(horizontal = 16.dp, vertical = 12.dp)
     )
 }
+
+@Preview
+@Composable
+fun UiPreview() {
+    ContactsList(contacts = (0..10)
+        .map {
+            ContactRow(it.toLong(), "Demo contact $it")
+        },
+        onClick = { }
+    )
+}
+
+
+

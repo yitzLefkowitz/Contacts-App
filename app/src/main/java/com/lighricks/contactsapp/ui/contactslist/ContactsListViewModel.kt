@@ -1,5 +1,7 @@
 package com.lighricks.contactsapp.ui.contactslist
 
+import android.Manifest
+import androidx.annotation.RequiresPermission
 import androidx.lifecycle.ViewModel
 import com.lighricks.contactsapp.data.ContactData
 import com.lighricks.contactsapp.data.ContactsRepo
@@ -12,6 +14,9 @@ import javax.inject.Inject
 class ContactsListViewModel @Inject constructor(
     private val contactsRepo: ContactsRepo
 ) : ViewModel() {
+
+    @RequiresPermission(Manifest.permission.READ_CONTACTS)
+    fun observeContacts() = contactsRepo.observeDeviceContacts()
 
     fun getContacts(): Flow<List<ContactRow>> {
         return contactsRepo.getContacts().map {

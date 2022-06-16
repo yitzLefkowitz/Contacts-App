@@ -20,10 +20,15 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Preview(showBackground = true)
 @Composable
 fun App() {
     ContactsAppTheme {
         DestinationsNavHost(navGraph = NavGraphs.root)
     }
+}
+
+@Preview
+@Composable
+fun Preview() {
+    App()
 }

@@ -101,8 +101,8 @@ object ContactsRetriever {
                     getString(data1Index)?.let { phoneNumbers.add(it) }
 
             }
-            contact.email = emails.first { Patterns.EMAIL_ADDRESS.matcher(it).matches() }
-            contact.phone = phoneNumbers.first { it.isNotEmpty() }
+            contact.email = emails.firstOrNull { Patterns.EMAIL_ADDRESS.matcher(it).matches() }.orEmpty()
+            contact.phone = phoneNumbers.firstOrNull { it.isNotEmpty() }.orEmpty()
 
             moveToNext()
         }

@@ -61,8 +61,8 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
 
     // hilt
-    implementation "com.google.dagger:hilt-android:2.38.1"
-    kapt "com.google.dagger:hilt-compiler:2.38.1"
+    implementation "com.google.dagger:hilt-android:2.42"
+    kapt "com.google.dagger:hilt-compiler:2.42"
 
     // compose
     implementation 'androidx.activity:activity-compose:1.4.0'
@@ -73,6 +73,7 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
 
     // compose navigation
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
     implementation 'io.github.raamcosta.compose-destinations:core:1.5.10-beta'
     ksp 'io.github.raamcosta.compose-destinations:ksp:1.5.10-beta'
 

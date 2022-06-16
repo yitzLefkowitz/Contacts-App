@@ -38,9 +38,14 @@ class ContactsChangedObserver @Inject constructor(
             true,
             this
         )
+        syncContacts()
     }
 
     override fun onChange(selfChange: Boolean) {
+        syncContacts()
+    }
+
+    private fun syncContacts() {
         appScope.launch {
             val contacts = ContactsRetriever.getDeviceContacts(context)
             contactsStorage.updateContacts(contacts)
