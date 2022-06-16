@@ -47,7 +47,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun ContactListScreen(
-    viewModel: ContactsListViewModel = hiltViewModel<ContactsListViewModel>(),
+    viewModel: ContactsListViewModel = hiltViewModel(),
     navigator: DestinationsNavigator
 ) {
     val systemUiController: SystemUiController = rememberSystemUiController()
