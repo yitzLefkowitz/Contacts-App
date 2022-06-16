@@ -3,7 +3,6 @@ package com.lighricks.contactsapp.ui.contactslist
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresPermission
@@ -32,20 +31,28 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.accompanist.systemuicontroller.SystemUiController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.lighricks.contactsapp.R
+import com.lighricks.contactsapp.ui.destinations.ContactScreenDestination
 import com.lighricks.contactsapp.ui.theme.AppBarBackground
 import com.lighricks.contactsapp.ui.theme.ContactBackgroundGradientEnd
 import com.lighricks.contactsapp.ui.theme.ContactBackgroundGradientStart
 import com.lighricks.contactsapp.ui.theme.ContactDivider
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @RootNavGraph(start = true)
 @Destination
 @Composable
 fun ContactListScreen(
-    viewModel: ContactsListViewModel = hiltViewModel<ContactsListViewModel>()
+    viewModel: ContactsListViewModel = hiltViewModel<ContactsListViewModel>(),
+    navigator: DestinationsNavigator
 ) {
+    val systemUiController: SystemUiController = rememberSystemUiController()
+    systemUiController.isStatusBarVisible = true
+
     val initialPermissionStatus = LocalContext.current.hasContactsPermission
     var hasPermission by remember { mutableStateOf(initialPermissionStatus) }
     val permissionLauncher =
@@ -59,7 +66,7 @@ fun ContactListScreen(
         }
     } else {
         @Suppress("MissingPermission")
-        ContactsScreenUi(viewModel = viewModel)
+        ContactsScreenUi(viewModel = viewModel, navigator = navigator)
     }
 }
 
@@ -71,7 +78,10 @@ private val Context.hasContactsPermission: Boolean
 
 @RequiresPermission(Manifest.permission.READ_CONTACTS)
 @Composable
-fun ContactsScreenUi(viewModel: ContactsListViewModel) {
+private fun ContactsScreenUi(
+    viewModel: ContactsListViewModel,
+    navigator: DestinationsNavigator
+) {
     viewModel.observeContacts()
     val contacts: List<ContactRow> by viewModel.getContacts()
         .collectAsState(initial = emptyList())
@@ -86,13 +96,14 @@ fun ContactsScreenUi(viewModel: ContactsListViewModel) {
         content = {
             ContactsList(
                 contacts = contacts,
-                onClick = { Log.d("Yitz", "Clicked on $it") })
+                onClick = { navigator.navigate(ContactScreenDestination(it.id)) }
+            )
         }
     )
 }
 
 @Composable
-fun AppBarTitle() {
+private fun AppBarTitle() {
     Text(
         text = stringResource(id = R.string.app_bar_title),
         color = Color.White
@@ -100,7 +111,7 @@ fun AppBarTitle() {
 }
 
 @Composable
-fun ContactsList(
+private fun ContactsList(
     contacts: List<ContactRow>,
     onClick: (contact: ContactRow) -> Unit
 ) {
@@ -115,7 +126,8 @@ fun ContactsList(
 }
 
 @Composable
-fun ContactRow(contact: ContactRow, onClick: (contact: ContactRow) -> Unit) {
+private fun ContactRow(contact: ContactRow, onClick: (contact: ContactRow) -> Unit) {
+    val shape = RoundedCornerShape(16.dp)
     Text(
         text = contact.name,
         fontSize = 30.sp,
@@ -130,9 +142,9 @@ fun ContactRow(contact: ContactRow, onClick: (contact: ContactRow) -> Unit) {
                     start = Offset.Zero,
                     end = Offset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
                 ),
-                shape = RoundedCornerShape(16.dp)
+                shape = shape
             )
-            .clip(RoundedCornerShape(16.dp))
+            .clip(shape)
             .fillMaxWidth()
             .clickable { onClick(contact) }
             .padding(horizontal = 16.dp, vertical = 12.dp)
@@ -141,7 +153,7 @@ fun ContactRow(contact: ContactRow, onClick: (contact: ContactRow) -> Unit) {
 
 @Preview
 @Composable
-fun UiPreview() {
+private fun UiPreview() {
     ContactsList(contacts = (0..10)
         .map {
             ContactRow(it.toLong(), "Demo contact $it")

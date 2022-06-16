@@ -11,4 +11,7 @@ val StatusBarBackground = Color(0xFF00574B)
 val ContactDivider = Color(0xFFE0E0E0)
 val ContactBackgroundGradientStart = Color(0xFF1E7620)
 val ContactBackgroundGradientEnd = Color(0xFF8AC249)
+val ContactDataBackground = Color(0xFF018577)
+val UsernameText = Color(0xFF05DDFF)
+val UserdataText = Color(0xFF0097c5)
 

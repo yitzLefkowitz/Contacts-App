@@ -5,8 +5,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.lighricks.contactsapp.ui.contactslist.NavGraphs
+import com.google.accompanist.systemuicontroller.SystemUiController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.lighricks.contactsapp.ui.NavGraphs
 import com.lighricks.contactsapp.ui.theme.ContactsAppTheme
+import com.lighricks.contactsapp.ui.theme.StatusBarBackground
 import com.ramcosta.composedestinations.DestinationsNavHost
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,6 +26,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun App() {
     ContactsAppTheme {
+        val systemUiController: SystemUiController = rememberSystemUiController()
+        systemUiController.setStatusBarColor(StatusBarBackground)
         DestinationsNavHost(navGraph = NavGraphs.root)
     }
 }
