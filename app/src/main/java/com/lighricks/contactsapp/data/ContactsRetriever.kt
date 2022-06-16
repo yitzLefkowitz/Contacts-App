@@ -59,7 +59,8 @@ object ContactsRetriever {
         val contacts = LongSparseArray<ContactData>()
 
         val idIndex: Int = getColumnIndex(ContactsContract.Data.CONTACT_ID)
-        val displayNamePrimaryIndex: Int = getColumnIndex(ContactsContract.Data.DISPLAY_NAME_PRIMARY)
+        val displayNamePrimaryIndex: Int =
+            getColumnIndex(ContactsContract.Data.DISPLAY_NAME_PRIMARY)
         val imageIndex: Int = getColumnIndex(ContactsContract.Data.PHOTO_URI)
         val thumbnailIndex: Int = getColumnIndex(ContactsContract.Data.PHOTO_THUMBNAIL_URI)
         val mimeTypeIndex: Int = getColumnIndex(ContactsContract.Data.MIMETYPE)
@@ -91,18 +92,14 @@ object ContactsRetriever {
                 contacts.put(id, contact)
             }
             val mimeType = getString(mimeTypeIndex)
-            val emails: MutableList<String> = mutableListOf()
-            val phoneNumbers: MutableList<String> = mutableListOf()
             when (mimeType) {
                 ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE ->
-                    getString(data1Index)?.let { emails.add(it) }
+                    getString(data1Index)?.let { contact.emails.add(it) }
 
                 ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE ->
-                    getString(data1Index)?.let { phoneNumbers.add(it) }
+                    getString(data1Index)?.let { contact.phoneNumbers.add(it) }
 
             }
-            contact.email = emails.firstOrNull { Patterns.EMAIL_ADDRESS.matcher(it).matches() }.orEmpty()
-            contact.phone = phoneNumbers.firstOrNull { it.isNotEmpty() }.orEmpty()
 
             moveToNext()
         }
@@ -117,8 +114,11 @@ object ContactsRetriever {
 data class ContactData(
     val id: Long,
     val name: String,
-    var email: String = "",
-    var phone: String = "",
+    val emails: MutableList<String> = mutableListOf(),
+    val phoneNumbers: MutableList<String> = mutableListOf(),
     val thumbnail: Uri?,
     val image: Uri?
-)
+) {
+    val email get() = emails.firstOrNull { Patterns.EMAIL_ADDRESS.matcher(it).matches() }.orEmpty()
+    val phone get() = phoneNumbers.firstOrNull { it.isNotEmpty() }.orEmpty()
+}
