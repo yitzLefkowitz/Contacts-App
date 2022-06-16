@@ -50,39 +50,36 @@ private fun ContactScreenUi() {
                 .fillMaxWidth()
                 .align(Alignment.BottomStart)
         ) {
-            Text(
+            UserDataText(
                 text = "Andi Lightricksovitch",
-                color = UsernameText,
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .padding(horizontal = 12.dp, vertical = 4.dp)
-                    .background(ContactDataBackground)
-                    .padding(horizontal = 4.dp, vertical = 2.dp)
-                    .wrapContentSize()
+                isTitle = true
             )
-            Text(
+            UserDataText(
                 text = "android.devices@lightricks.com",
-                color = UserdataText,
-                fontStyle = FontStyle.Italic,
-                fontSize = 24.sp,
-                modifier = Modifier
-                    .padding(horizontal = 16.dp, vertical = 4.dp)
-                    .background(ContactDataBackground)
-                    .padding(horizontal = 4.dp, vertical = 2.dp)
-                    .wrapContentSize()
+                isTitle = false,
+                fontStyle = FontStyle.Italic
             )
-            Text(
+            UserDataText(
                 text = "+972 525 111 111",
-                color = UserdataText,
-                fontSize = 24.sp,
-                modifier = Modifier
-                    .padding(horizontal = 16.dp, vertical = 4.dp)
-                    .background(ContactDataBackground)
-                    .padding(horizontal = 4.dp, vertical = 2.dp)
-                    .wrapContentSize()
+                isTitle = false
             )
             Spacer(modifier = Modifier.height(bottomMargin))
         }
     }
+}
+
+@Composable
+private fun UserDataText(text: String, isTitle: Boolean, fontStyle: FontStyle? = null) {
+    Text(
+        text = text,
+        color = if (isTitle) UsernameText else UserdataText,
+        fontSize = if (isTitle) 30.sp else 24.sp,
+        fontWeight = if (isTitle) FontWeight.Bold else null,
+        fontStyle = fontStyle,
+        modifier = Modifier
+            .padding(horizontal = if (isTitle) 12.dp else 16.dp, vertical = 4.dp)
+            .background(ContactDataBackground)
+            .padding(horizontal = 4.dp, vertical = 2.dp)
+            .wrapContentSize()
+    )
 }
