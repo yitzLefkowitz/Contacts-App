@@ -54,7 +54,7 @@ private fun ContactScreenUi(contact: ContactUiData) {
         val bottomMargin: Dp = this.maxHeight / 10f
         AsyncImage(
             modifier = Modifier.fillMaxSize(),
-            model = contact.image,
+            model = contact.image ?: R.drawable.ic_contact_placeholder,
             placeholder = painterResource(id = R.drawable.ic_contact_placeholder),
             contentDescription = "users profile image",
             contentScale = ContentScale.Crop
