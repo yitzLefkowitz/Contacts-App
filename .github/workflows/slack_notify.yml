@@ -1,0 +1,25 @@
+name: Slack Notify
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  notify:
+    name: Notify on Slack
+    runs-on: ubuntu-latest
+
+    if: ${{ github.base_ref == 'master' && github.event_name == 'pull_request' }}
+
+    steps:
+      - name: Post to a Slack channel
+        id: slack
+        uses: slackapi/slack-github-action@v1.23.0
+        with:
+          # Slack channel id, channel name, or user id to post message.
+          # See also: https://api.slack.com/methods/chat.postMessage#channels
+          # You can pass in multiple channels to post to by providing a comma-delimited list of channel IDs.
+          channel-id: 'C04HY5EN8AE'
+          # For posting a simple plain text message
+          slack-message: "Test"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
